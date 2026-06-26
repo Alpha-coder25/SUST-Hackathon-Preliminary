@@ -31,9 +31,11 @@ from safety_layer import apply_safety_layer
 
 load_dotenv()
 
+ENABLE_METRICS = os.getenv("ENABLE_METRICS", "false").lower() in ("true", "1", "yes")
+
 # ── Logging ────────────────────────────────────────────────────────────────────
 logging.basicConfig(
-    level=logging.INFO,
+    level=getattr(logging, os.getenv("LOG_LEVEL", "INFO").upper(), logging.INFO),
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%dT%H:%M:%S",
 )
@@ -46,6 +48,8 @@ app = FastAPI(
     description="AI/API service for fintech support-ops ticket investigation",
     version="1.0.0",
 )
+
+
 
 
 # ── Exception Handlers ─────────────────────────────────────────────────────────
@@ -135,6 +139,11 @@ async def analyze_ticket(request: AnalyzeTicketRequest):
 @app.on_event("startup")
 async def startup_event():
     logger.info("QueueStorm Investigator starting up...")
+    # Expose /metrics endpoint if metrics are enabled (lazy import)
+    if ENABLE_METRICS:
+        from prometheus_fastapi_instrumentator import Instrumentator
+        Instrumentator().instrument(app).expose(app)
+        logger.info("Prometheus metrics enabled at /metrics")
     # Preload any models or resources here if needed
     logger.info("QueueStorm Investigator ready.")
 

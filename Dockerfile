@@ -20,7 +20,8 @@ COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
-COPY main.py models.py evidence_engine.py safety_layer.py .env.example ./
+COPY *.py ./
+COPY .env.example ./
 
 # Create a non-root user for security
 RUN addgroup --system --gid 1001 appgroup && \

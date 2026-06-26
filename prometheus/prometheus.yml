@@ -1,0 +1,36 @@
+# =============================================================================
+# QueueStorm Investigator — Prometheus Configuration
+# =============================================================================
+# Scrapes /metrics from the queuestorm-api service every 15s.
+# Dashboard & alert rules can be added here.
+# =============================================================================
+
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+  # Attach these labels to any time series or alerts
+  external_labels:
+    monitor: "queuestorm-investigator"
+
+# Rule files (uncomment to enable custom alerting rules)
+# rule_files:
+#   - "alerts.yml"
+
+scrape_configs:
+  # ── QueueStorm API Metrics ─────────────────────────────────────────────────
+  - job_name: "queuestorm-api"
+    scrape_interval: 15s
+    metrics_path: /metrics
+    scheme: http
+    static_configs:
+      - targets: ["queuestorm-api:8000"]
+        labels:
+          service: "queuestorm-investigator"
+          environment: "production"
+
+  # ── Prometheus self-monitoring ─────────────────────────────────────────────
+  - job_name: "prometheus"
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["localhost:9090"]

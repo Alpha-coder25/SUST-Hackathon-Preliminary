@@ -1,0 +1,19 @@
+# =============================================================================
+# QueueStorm Investigator — Grafana Dashboard Provisioning
+# =============================================================================
+# Automatically loads dashboard JSON files from this directory.
+# =============================================================================
+
+apiVersion: 1
+
+providers:
+  - name: QueueStorm
+    orgId: 1
+    folder: QueueStorm
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: false

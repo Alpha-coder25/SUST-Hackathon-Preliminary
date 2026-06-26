@@ -97,12 +97,12 @@ class TransactionHistoryItem(BaseModel):
 
 
 class AnalyzeTicketRequest(BaseModel):
-    ticket_id: str = Field(..., min_length=1)
-    complaint: str = Field(..., min_length=1)
+    ticket_id: str = Field(..., min_length=1, max_length=256)
+    complaint: str = Field(..., min_length=1, max_length=10000)
     language: Optional[Language] = None
     channel: Optional[Channel] = None
     user_type: Optional[UserType] = None
-    campaign_context: Optional[str] = None
+    campaign_context: Optional[str] = Field(None, max_length=500)
     transaction_history: Optional[list[TransactionHistoryItem]] = None
     metadata: Optional[dict] = None
 

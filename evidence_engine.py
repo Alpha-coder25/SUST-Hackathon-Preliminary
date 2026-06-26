@@ -229,12 +229,23 @@ def compute_time_proximity(tx_timestamp_str: str, complaint_time_ref: Optional[s
     """
     Compute a proxy score for time proximity.
     If no complaint time ref, assume moderate proximity (0.5).
+
+    Handles timezone-aware and naive datetimes safely:
+    - Converts 'Z' suffix to '+00:00' for Python <3.11 compatibility
+    - Assumes UTC for timestamps without timezone info
     """
     if not complaint_time_ref:
         return 0.5
 
     try:
-        tx_time = datetime.fromisoformat(tx_timestamp_str)
+        # Normalize 'Z' suffix to '+00:00' for broad Python compatibility
+        ts = tx_timestamp_str
+        if ts.endswith("Z"):
+            ts = ts[:-1] + "+00:00"
+        tx_time = datetime.fromisoformat(ts)
+        # If the parsed datetime has no timezone info, assume UTC
+        if tx_time.tzinfo is None:
+            tx_time = tx_time.replace(tzinfo=timezone.utc)
     except (ValueError, TypeError):
         return 0.5
 

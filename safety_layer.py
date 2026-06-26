@@ -140,21 +140,25 @@ def apply_safety_layer(
 
 
 def _sanitize_sensitive_info(text: str) -> str:
-    """Remove or replace any request for sensitive information."""
-    # Replace the entire offending section with safe text
+    """Remove or replace any request for sensitive information.
+    Applies all patterns iteratively to handle overlapping matches.
+    """
+    any_match = False
     for pattern in SENSITIVE_INFO_PATTERNS:
         if pattern.search(text):
-            # Remove the sensitive request and append a safe alternative
-            cleaned = pattern.sub("", text)
-            # Clean up double spaces and punctuation
-            cleaned = re.sub(r"\s{2,}", " ", cleaned)
-            cleaned = re.sub(r",\s*,", ",", cleaned)
-            cleaned = re.sub(r"\.\s*\.", ".", cleaned)
-            # Ensure it's still readable
-            if cleaned.strip():
-                text = cleaned.strip()
-            else:
-                text = "Please use our official support channels for verification."
+            any_match = True
+            # Remove the sensitive request
+            text = pattern.sub("", text)
+    # Clean up artifacts from all patterns at once
+    if any_match:
+        text = re.sub(r"\s{2,}", " ", text)
+        text = re.sub(r",\s*,", ",", text)
+        text = re.sub(r"\.\s*\.", ".", text)
+        text = re.sub(r"\s+\.", ".", text)
+        text = re.sub(r"\.\s+", ". ", text)
+        text = text.strip()
+        if not text:
+            text = "Please use our official support channels for verification."
     return text
 
 

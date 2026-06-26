@@ -1,0 +1,89 @@
+# =============================================================================
+# QueueStorm Investigator — Docker Compose
+# =============================================================================
+# Usage:
+#   docker compose up -d                     # Start API only
+#   docker compose --profile monitoring up   # Start API + Prometheus + Grafana
+#   docker compose down                      # Stop everything
+# =============================================================================
+
+services:
+
+  # ── Main API Service ──────────────────────────────────────────────────────────
+  queuestorm-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: queuestorm-investigator:latest
+    container_name: queuestorm-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENABLE_METRICS=${ENABLE_METRICS:-true}
+    # Health check (matches Dockerfile)
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - queuestorm-net
+
+  # ── Prometheus (monitoring, optional) ─────────────────────────────────────────
+  prometheus:
+    profiles: ["monitoring"]
+    image: prom/prometheus:v2.53.0
+    container_name: queuestorm-prometheus
+    restart: unless-stopped
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=7d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    depends_on:
+      queuestorm-api:
+        condition: service_healthy
+    networks:
+      - queuestorm-net
+
+  # ── Grafana (monitoring, optional) ────────────────────────────────────────────
+  grafana:
+    profiles: ["monitoring"]
+    image: grafana/grafana:11.1.0
+    container_name: queuestorm-grafana
+    restart: unless-stopped
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - queuestorm-net
+
+volumes:
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+networks:
+  queuestorm-net:
+    driver: bridge
