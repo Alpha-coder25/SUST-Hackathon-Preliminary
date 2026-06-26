@@ -1,0 +1,271 @@
+[
+  {
+    "input": {
+      "ticket_id": "TKT-001",
+      "complaint": "I sent BDT 5000 to the wrong bKash number yesterday. The number was 01712345678 but I accidentally sent it to 01712345679. Please help me get my money back.",
+      "language": "en",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-001-A",
+          "timestamp": "2026-06-25T14:30:00Z",
+          "type": "transfer",
+          "amount": 5000,
+          "counterparty": "01712345679",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-001-A",
+      "evidence_verdict": "consistent",
+      "case_type": "wrong_transfer",
+      "severity": "medium",
+      "department": "dispute_resolution",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-002",
+      "complaint": "I tried to pay BDT 2500 for my utility bill but the payment failed. The money was deducted from my account but the bill wasn't paid.",
+      "language": "en",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-002-A",
+          "timestamp": "2026-06-25T10:15:00Z",
+          "type": "payment",
+          "amount": 2500,
+          "counterparty": "UTILITY-BILL-001",
+          "status": "failed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-002-A",
+      "evidence_verdict": "consistent",
+      "case_type": "payment_failed",
+      "severity": "low",
+      "department": "payments_ops",
+      "human_review_required": false
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-003",
+      "complaint": "I want a refund for a BDT 1500 transfer I made to a merchant last week. The product was defective and I returned it.",
+      "language": "en",
+      "channel": "email",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-003-A",
+          "timestamp": "2026-06-20T09:00:00Z",
+          "type": "payment",
+          "amount": 1500,
+          "counterparty": "MERCHANT-ABC",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-003-A",
+      "evidence_verdict": "consistent",
+      "case_type": "refund_request",
+      "severity": "low",
+      "department": "payments_ops",
+      "human_review_required": false
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-004",
+      "complaint": "I was charged BDT 3000 twice for the same payment to ShopNow. My account was deducted 3000+3000=6000 but it should have been only 3000.",
+      "language": "en",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-004-A",
+          "timestamp": "2026-06-24T16:00:00Z",
+          "type": "payment",
+          "amount": 3000,
+          "counterparty": "SHOPNOW-MERCHANT",
+          "status": "completed"
+        },
+        {
+          "transaction_id": "TXN-004-B",
+          "timestamp": "2026-06-24T16:01:00Z",
+          "type": "payment",
+          "amount": 3000,
+          "counterparty": "SHOPNOW-MERCHANT",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-004-A",
+      "evidence_verdict": "consistent",
+      "case_type": "duplicate_payment",
+      "severity": "medium",
+      "department": "payments_ops",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-005",
+      "complaint": "I am a merchant and my settlement of BDT 45000 for last week's sales has not been received yet. It's been 5 days since the expected settlement date.",
+      "language": "en",
+      "channel": "merchant_portal",
+      "user_type": "merchant",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-005-A",
+          "timestamp": "2026-06-21T23:59:00Z",
+          "type": "settlement",
+          "amount": 45000,
+          "counterparty": "MERCHANT-SHOPXYZ",
+          "status": "pending"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-005-A",
+      "evidence_verdict": "consistent",
+      "case_type": "merchant_settlement_delay",
+      "severity": "medium",
+      "department": "merchant_operations",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-006",
+      "complaint": "I went to an agent to cash in BDT 2000 but the agent said the transaction failed and took my cash. The money is not showing in my bKash account.",
+      "language": "en",
+      "channel": "field_agent",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-006-A",
+          "timestamp": "2026-06-25T18:00:00Z",
+          "type": "cash_in",
+          "amount": 2000,
+          "counterparty": "AGENT-0987654321",
+          "status": "failed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-006-A",
+      "evidence_verdict": "consistent",
+      "case_type": "agent_cash_in_issue",
+      "severity": "low",
+      "department": "agent_operations",
+      "human_review_required": false
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-007",
+      "complaint": "I received a call from an unknown number saying they are bKash support and asking for my PIN. They said my account will be blocked if I don't share the OTP. This seems like a scam.",
+      "language": "en",
+      "channel": "call_center",
+      "user_type": "customer",
+      "transaction_history": []
+    },
+    "expected_output": {
+      "relevant_transaction_id": null,
+      "evidence_verdict": "insufficient_data",
+      "case_type": "phishing_or_social_engineering",
+      "severity": "critical",
+      "department": "fraud_risk",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-008",
+      "complaint": "I sent BDT 10000 to 01711223344 but they are saying they didn't receive it. My transaction shows completed.",
+      "language": "en",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-008-A",
+          "timestamp": "2026-06-26T08:00:00Z",
+          "type": "transfer",
+          "amount": 10000,
+          "counterparty": "01711223344",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-008-A",
+      "evidence_verdict": "inconsistent",
+      "case_type": "wrong_transfer",
+      "severity": "medium",
+      "department": "dispute_resolution",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-009",
+      "complaint": "I don't remember any transaction but my balance is reduced. Can you check what happened to my account?",
+      "language": "en",
+      "channel": "email",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-009-A",
+          "timestamp": "2026-06-25T20:00:00Z",
+          "type": "transfer",
+          "amount": 800,
+          "counterparty": "01799887766",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-009-A",
+      "evidence_verdict": "insufficient_data",
+      "case_type": "other",
+      "severity": "low",
+      "department": "customer_support",
+      "human_review_required": true
+    }
+  },
+  {
+    "input": {
+      "ticket_id": "TKT-010",
+      "complaint": "আমি ৫০০ টাকা ভুল নম্বরে পাঠিয়ে দিয়েছি। আমার টাকা ফেরত দিন।",
+      "language": "bn",
+      "channel": "in_app_chat",
+      "user_type": "customer",
+      "transaction_history": [
+        {
+          "transaction_id": "TXN-010-A",
+          "timestamp": "2026-06-26T12:00:00Z",
+          "type": "transfer",
+          "amount": 500,
+          "counterparty": "01712345670",
+          "status": "completed"
+        }
+      ]
+    },
+    "expected_output": {
+      "relevant_transaction_id": "TXN-010-A",
+      "evidence_verdict": "consistent",
+      "case_type": "wrong_transfer",
+      "severity": "low",
+      "department": "dispute_resolution",
+      "human_review_required": true
+    }
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "request": {
+    "ticket_id": "TKT-001",
+    "complaint": "I sent BDT 5000 to the wrong bKash number yesterday. The number was 01712345678 but I accidentally sent it to 01712345679. Please help me get my money back.",
+    "language": "en",
+    "channel": "in_app_chat",
+    "user_type": "customer",
+    "transaction_history": [
+      {
+        "transaction_id": "TXN-001-A",
+        "timestamp": "2026-06-25T14:30:00Z",
+        "type": "transfer",
+        "amount": 5000,
+        "counterparty": "01712345679",
+        "status": "completed"
+      }
+    ]
+  },
+  "response": {
+    "ticket_id": "TKT-001",
+    "relevant_transaction_id": "TXN-001-A",
+    "evidence_verdict": "consistent",
+    "case_type": "wrong_transfer",
+    "severity": "medium",
+    "department": "dispute_resolution",
+    "agent_summary": "Ticket TKT-001 — Wrong Transfer\nChannel: in_app_chat | User: customer | Severity: medium | Dept: dispute_resolution\nEvidence: Consistent\nMatched Tx: TXN-001-A | Amount: 5000 | Type: transfer | Status: completed | Counterparty: 01712345679 | Score: 0.9\nComplaint excerpt: I sent BDT 5000 to the wrong bKash number yesterday. The number was 01712345678 but I accidentally sent it to 01712345679. Please help me get my money back....",
+    "recommended_next_action": "Escalate to dispute resolution team for manual review and trace the transaction to the recipient. Initiate fund recovery process if applicable.",
+    "customer_reply": "Dear Customer, we are sorry to hear about the wrong transfer. We have noted the details and our dispute resolution team will review the matter. If eligible, any applicable amount will be returned through official channels as per our policy. We will contact you through our official support channels within 24-48 hours with an update.",
+    "human_review_required": true,
+    "confidence": 0.93,
+    "reason_codes": [
+      "EVIDENCE_CONSISTENT",
+      "CASE_TYPE_WRONG_TRANSFER",
+      "TX_STATUS_COMPLETED",
+      "HUMAN_REVIEW_REQUIRED"
+    ]
+  }
+}

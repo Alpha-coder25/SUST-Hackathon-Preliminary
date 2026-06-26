@@ -1,0 +1,391 @@
+INFO:     Started server process [21124]
+INFO:     Waiting for application startup.
+2026-06-26T20:52:21 [INFO] QueueStorm Investigator starting up...
+2026-06-26T20:52:21 [INFO] QueueStorm Investigator ready.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:63923 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65397 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55118 - "GET /health HTTP/1.1" 200 OK
+2026-06-26T21:16:40 [INFO] Analyzing ticket: ticket_id=TKT-001, complaint_len=156, tx_count=1
+2026-06-26T21:16:40 [ERROR] Internal error: Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_ha
+INFO:     127.0.0.1:55118 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\protocols\http\h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\middleware\proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 2531, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 1241, in handle
+    await super().handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 344, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\main.py", line 123, in analyze_ticket
+    result = investigate(request)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 509, in investigate
+    best_tx, best_score, match_breakdown = find_best_matching_transaction(complaint, tx_history)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 283, in find_best_matching_transaction
+    time_score = compute_time_proximity(tx.timestamp, complaint_time_ref)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 219, in compute_time_proximity
+    tx_age_hours = abs((now - tx_time).total_seconds()) / 3600
+                        ~~~~^~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+2026-06-26T21:16:42 [INFO] Analyzing ticket: ticket_id=TKT-002, complaint_len=132, tx_count=1
+INFO:     127.0.0.1:55120 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:42 [INFO] Analyzing ticket: ticket_id=TKT-003, complaint_len=116, tx_count=1
+2026-06-26T21:16:42 [ERROR] Internal error: Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_ha
+INFO:     127.0.0.1:55120 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\protocols\http\h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\middleware\proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 2531, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 1241, in handle
+    await super().handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 344, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\main.py", line 123, in analyze_ticket
+    result = investigate(request)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 509, in investigate
+    best_tx, best_score, match_breakdown = find_best_matching_transaction(complaint, tx_history)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 283, in find_best_matching_transaction
+    time_score = compute_time_proximity(tx.timestamp, complaint_time_ref)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 219, in compute_time_proximity
+    tx_age_hours = abs((now - tx_time).total_seconds()) / 3600
+                        ~~~~^~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+2026-06-26T21:16:44 [INFO] Analyzing ticket: ticket_id=TKT-004, complaint_len=135, tx_count=2
+INFO:     127.0.0.1:55122 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:44 [INFO] Analyzing ticket: ticket_id=TKT-005, complaint_len=148, tx_count=1
+2026-06-26T21:16:44 [ERROR] Internal error: Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_ha
+INFO:     127.0.0.1:55122 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\protocols\http\h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\middleware\proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 2531, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 1241, in handle
+    await super().handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 344, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\main.py", line 123, in analyze_ticket
+    result = investigate(request)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 509, in investigate
+    best_tx, best_score, match_breakdown = find_best_matching_transaction(complaint, tx_history)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 283, in find_best_matching_transaction
+    time_score = compute_time_proximity(tx.timestamp, complaint_time_ref)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 219, in compute_time_proximity
+    tx_age_hours = abs((now - tx_time).total_seconds()) / 3600
+                        ~~~~^~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+2026-06-26T21:16:46 [INFO] Analyzing ticket: ticket_id=TKT-006, complaint_len=144, tx_count=1
+INFO:     127.0.0.1:55124 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:46 [INFO] Analyzing ticket: ticket_id=TKT-007, complaint_len=180, tx_count=0
+INFO:     127.0.0.1:55124 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:46 [INFO] Analyzing ticket: ticket_id=TKT-008, complaint_len=107, tx_count=1
+INFO:     127.0.0.1:55124 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:46 [INFO] Analyzing ticket: ticket_id=TKT-009, complaint_len=102, tx_count=1
+INFO:     127.0.0.1:55124 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:16:46 [INFO] Analyzing ticket: ticket_id=TKT-010, complaint_len=60, tx_count=1
+INFO:     127.0.0.1:55124 - "POST /analyze-ticket HTTP/1.1" 200 OK
+2026-06-26T21:17:34 [INFO] Analyzing ticket: ticket_id=TKT-001, complaint_len=156, tx_count=1
+2026-06-26T21:17:34 [ERROR] Internal error: Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_ha
+INFO:     127.0.0.1:53250 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\protocols\http\h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\middleware\proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 2531, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 1241, in handle
+    await super().handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 344, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\main.py", line 123, in analyze_ticket
+    result = investigate(request)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 509, in investigate
+    best_tx, best_score, match_breakdown = find_best_matching_transaction(complaint, tx_history)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 283, in find_best_matching_transaction
+    time_score = compute_time_proximity(tx.timestamp, complaint_time_ref)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 219, in compute_time_proximity
+    tx_age_hours = abs((now - tx_time).total_seconds()) / 3600
+                        ~~~~^~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+2026-06-26T21:17:55 [INFO] Analyzing ticket: ticket_id=TKT-003, complaint_len=116, tx_count=1
+2026-06-26T21:17:55 [ERROR] Internal error: Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_ha
+INFO:     127.0.0.1:53253 - "POST /analyze-ticket HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\protocols\http\h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\uvicorn\middleware\proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 2531, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 1241, in handle
+    await super().handle(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 150, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 136, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 690, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Qbits\AppData\Roaming\Python\Python314\site-packages\fastapi\routing.py", line 344, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\main.py", line 123, in analyze_ticket
+    result = investigate(request)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 509, in investigate
+    best_tx, best_score, match_breakdown = find_best_matching_transaction(complaint, tx_history)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 283, in find_best_matching_transaction
+    time_score = compute_time_proximity(tx.timestamp, complaint_time_ref)
+  File "D:\SUST Hackathon Preli\evidence_engine.py", line 219, in compute_time_proximity
+    tx_age_hours = abs((now - tx_time).total_seconds()) / 3600
+                        ~~~~^~~~~~~~~
+TypeError: can't subtract offset-naive and offset-aware datetimes
+2026-06-26T21:18:12 [INFO] Analyzing ticket: ticket_id=TKT-004, complaint_len=135, tx_count=2
+INFO:     127.0.0.1:53257 - "POST /analyze-ticket HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53259 - "POST /analyze-ticket HTTP/1.1" 422 Unprocessable Content
